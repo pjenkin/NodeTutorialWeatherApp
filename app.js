@@ -16,8 +16,13 @@ const argv = yargs
 
   console.log('argv: ',argv);
 
+debugger;
+var address = process.argv[3];
+address = encodeURIComponent(address);
+
 request({
-  url: 'http://www.mapquestapi.com/geocoding/v1/address?key=pX8PCBe1xKpGx9ZBf05T9bXmJU1kePLv&location=67%20Trevingey%20Road%20Redruth',
+  // url: 'http://www.mapquestapi.com/geocoding/v1/address?key=pX8PCBe1xKpGx9ZBf05T9bXmJU1kePLv&location=67%20Trevingey%20Road%20Redruth',
+  url: 'http://www.mapquestapi.com/geocoding/v1/address?key=pX8PCBe1xKpGx9ZBf05T9bXmJU1kePLv&location=' + address,
   json: true
 }, (error, response, body) => {
   console.log('Printing body: ',body);
@@ -27,6 +32,7 @@ request({
   console.log('Printing lat: ',body.results[0].locations[0].latLng.lat);
   console.log('Printing lng: ',body.results[0].locations[0].latLng.lng);
 });
+
 
 
 // https://www.udemy.com/the-complete-nodejs-developer-course-2/learn/v4/questions/2956062
