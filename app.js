@@ -17,12 +17,13 @@ const argv = yargs
   console.log('argv: ',argv);
 
 debugger;
-var address = process.argv[3];
-address = encodeURIComponent(address);
-
+//var address = process.argv[3];    // NB 4th argument in argv holding address
+//address = encodeURIComponent(address);
+var address = encodeURIComponent(argv.address);   // easier way to access address!
 request({
   // url: 'http://www.mapquestapi.com/geocoding/v1/address?key=pX8PCBe1xKpGx9ZBf05T9bXmJU1kePLv&location=67%20Trevingey%20Road%20Redruth',
-  url: 'http://www.mapquestapi.com/geocoding/v1/address?key=pX8PCBe1xKpGx9ZBf05T9bXmJU1kePLv&location=' + address,
+  // url: 'http://www.mapquestapi.com/geocoding/v1/address?key=pX8PCBe1xKpGx9ZBf05T9bXmJU1kePLv&location=' + address,
+  url: `http://www.mapquestapi.com/geocoding/v1/address?key=pX8PCBe1xKpGx9ZBf05T9bXmJU1kePLv&location=${address}`,
   json: true
 }, (error, response, body) => {
   console.log('Printing body: ',body);
