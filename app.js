@@ -5,7 +5,9 @@ request({
   json: true
 }, (error, response, body) => {
   console.log('Printing body: ',body);
-  console.log('Printing stringified body: ',JSON.stringify(body,undefined,2));    // json, filter out, num spaces
+  // console.log('Printing stringified body: ',JSON.stringify(body,undefined,2));    // json, filter out, num spaces
+  //console.log('Printing stringified response: ',JSON.stringify(response,undefined,2));    // json, filter out, num spaces
+  console.log('Printing stringified error: ',JSON.stringify(error,undefined,2));    // json, filter out, num spaces
   console.log('Printing lat: ',body.results[0].locations[0].latLng.lat);
   console.log('Printing lng: ',body.results[0].locations[0].latLng.lng);
 });
