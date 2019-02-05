@@ -6,7 +6,7 @@ const request = require('request');
 const _ = require('lodash');
 
 
-var geocodeAddress = (address) =>
+var geocodeAddress = (address, callback) =>
 {
    address = encodeURIComponent(address);   // easier way to access address!
   request({
@@ -15,25 +15,38 @@ var geocodeAddress = (address) =>
     url: `http://www.mapquestapi.com/geocoding/v1/address?key=pX8PCBe1xKpGx9ZBf05T9bXmJU1kePLv&location=${address}`,
     json: true
   }, (error, response, body) => {
+debugger;
     if (error)
     {
-      console.log('Unable to connect to MapQuest geocoding service');
-      return 1;     // return non-zero error code
+      callback('Unable to connect to MapQuest geocoding service');
+      // console.log('Unable to connect to MapQuest geocoding service');
+      // return 1;     // return non-zero error code
     }
     else if (_.get(body,'results[0].locations[0].geocodeQualityCode') === 'A1XAX' || _.get(body,'results[0].locations[0].geocodeQualityCode') === 'Z1XAA')   // _.get for null-safety
     {
-      console.log('Geocoding error');
+      callback('Geocoding error');
+      // console.log('Geocoding error');
       // https://developer.mapquest.com/documentation/geocoding-api/quality-codes/
-      return 2;     // return non-zero error code
+      // return 2;     // return non-zero error code
     }
-    console.log('Printing body: ',body);
-    // console.log('Printing stringified body: ',JSON.stringify(body,undefined,2));    // json, filter out, num spaces
-    //console.log('Printing stringified response: ',JSON.stringify(response,undefined,2));    // json, filter out, num spaces
-    // console.log('Printing stringified error: ',JSON.stringify(error,undefined,2));    // json, filter out, num spaces
-    console.log('Printing lat: ',body.results[0].locations[0].latLng.lat);
-    console.log('Printing lng: ',body.results[0].locations[0].latLng.lng);
+    else
+    {
 
-    return 0;     // return zero non-error code
+      callback(undefined, {
+        address: body.results[0].providedLocation.location,
+        latitude: body.results[0].locations[0].latLng.lat,
+        longitude: body.results[0].locations[0].latLng.lng
+
+      })
+      console.log('Printing body: ',body);
+      // console.log('Printing stringified body: ',JSON.stringify(body,undefined,2));    // json, filter out, num spaces
+      //console.log('Printing stringified response: ',JSON.stringify(response,undefined,2));    // json, filter out, num spaces
+      // console.log('Printing stringified error: ',JSON.stringify(error,undefined,2));    // json, filter out, num spaces
+      console.log('Printing lat: ',body.results[0].locations[0].latLng.lat);
+      console.log('Printing lng: ',body.results[0].locations[0].latLng.lng);
+
+      return 0;     // return zero non-error code
+  }
   });
 
   // body.results[0].locations[0].geocodeQualityCode": "A1XAX",
