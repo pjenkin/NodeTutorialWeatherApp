@@ -26,7 +26,8 @@ var getWeather = (lat, lng, callback) => {
     {
       callback(undefined,   // undefined error message (i.e. N/A) plus data object
       {
-        temperature: _.get(body,'currently.temperature')
+        temperature: _.get(body,'currently.temperature'),
+        apparentTemperature: _.get(body,'currently.apparentTemperature')
       })
       // console.log('location temperature : ', _.get(body,'currently.temperature'));
     }

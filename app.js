@@ -1,11 +1,13 @@
 
 // const request = require('request');
 const yargs = require('yargs');
-// const _ = require('lodash');
+const _ = require('lodash');
 
 const geocode = require('./geocode/geocode');
 const weather = require('./weather/weather');   // NB no .js needed
-/*
+
+var lat, lng;
+
 const argv = yargs
   .options({
     a: {    // a : address
@@ -35,20 +37,25 @@ geocode.geocodeAddress(argv.address, (errorMessage, results) => {
     console.log(errorMessage);
   }
   else {
-        console.log(JSON.stringify(results, undefined, 2))
+        console.log(JSON.stringify(results, undefined, 2));
+
+        // weather.getWeather(lat,lng, (errorMessage, resultsWeatherdata) => {
+        weather.getWeather(_.get(results,'latitude'),_.get(results,'longitude'), (errorMessage, resultsWeatherdata) => {
+          if (errorMessage)
+          {
+            console.log(errorMessage);
+          }
+          else {
+            console.log(JSON.stringify(resultsWeatherdata, undefined, ));
+            console.log(`Temperature at ${argv.address} is ${_.get(resultsWeatherdata,'temperature')}, apparent temperature is  ${_.get(resultsWeatherdata,'apparentTemperature')}`);
+          }
+        });
     }
   });
-*/
 
-weather.getWeather(50.22,-5.23, (errorMessage, resultsData) => {
-  if (errorMessage)
-  {
-    console.log(errorMessage);
-  }
-  else {
-    console.log(JSON.stringify(resultsData, undefined, 2))
-  }
-});
+// debugger;
+// weather.getWeather(50.22,-5.23, (errorMessage, resultsWeatherdata) => {
+
 
 // import request
 // make request
