@@ -29,16 +29,18 @@ asyncAdd(5,7).then((result) =>
 {
   console.log('Result: ', result);
   return asyncAdd(result, 44);
-}, (errorMessage) =>
+}/*,  (errorMessage) =>
   {
     console.log(errorMessage);
-  }).then((result) =>    // chaining of promises
+  }*/).then((result) =>    // chaining of promises
   {   // success
       console.log('Should be 56: ', result);
-  },(errorMessage) =>
+  }/*
+  ,(errorMessage) =>
   {       // failure
-    console.log('Error: ', error);
-})
+    console.log('Error: ', errorMessage);
+})*/
+)
 .catch( (error) =>
   {
       console.log('Error: ', error)
