@@ -10,11 +10,12 @@ var asyncAdd = (a,b) =>
       } else
       {
         reject('Both arguments must be numbers');
-      } 
+      }
     }, 3500);
   });
 };
 
+/*
 var somePromise = new Promise((resolve, reject) => {
 setTimeout(() =>
 {
@@ -22,7 +23,22 @@ setTimeout(() =>
   reject('Unable to fulfil promise');
 }, 4500);
 });
+*/
 
+asyncAdd(5,7).then((result) =>
+{
+  console.log('Result: ', result);
+}, (errorMessage) =>
+{
+  console.log(errorMessage);
+})
+.catch( (error) =>
+  {
+      console.log('Error: ', error)
+  }
+);
+
+/*
 somePromise.then((message) =>     // this function only called if Promise fulfilled, with value passed to resolve
 {
   console.log('Success : ', message)
@@ -32,5 +48,5 @@ somePromise.then((message) =>     // this function only called if Promise fulfil
 .catch ((error) => {
   console.log("Promise rejected: ", error);
 })
-
+*/
 // Promise with a switch of resolve or reject
