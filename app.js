@@ -50,7 +50,26 @@ request({
   url: 'https://api.darksky.net/forecast/a46666c475d10436fc8f2b04f56bb46c/50.22,-5.23',
   json: true
 }, (error, response, body) => {
-  console.log('location temperature : ', _.get(body,'currently.temperature'));
+  if (error)
+  {
+    console.log('Unable to connect to Forecast.io/Darksky.net server.');
+  }
+  else if (response.statusCode === 404)
+  {
+    // was 400 bad request, now 404?
+    console.log('Unable to fetch weather');
+  }
+  // else if ()
+  // {
+  //
+  // }
+  else if (response.statusCode === 200)
+  {
+    console.log('location temperature : ', _.get(body,'currently.temperature'));
+  }
+  else {
+    console.log('Unable to fetch weather');
+  }
 });
 
 // using my own darksky developer API key a46666c475d10436fc8f2b04f56bb46c
