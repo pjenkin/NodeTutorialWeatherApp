@@ -1,10 +1,11 @@
-/*
+
 // const request = require('request');
 const yargs = require('yargs');
 // const _ = require('lodash');
 
 const geocode = require('./geocode/geocode');
-
+const weather = require('./weather/weather');   // NB no .js needed
+/*
 const argv = yargs
   .options({
     a: {    // a : address
@@ -39,37 +40,16 @@ geocode.geocodeAddress(argv.address, (errorMessage, results) => {
   });
 */
 
-// import request
-// make request
-// print current temperature
-
-var request = require('request');
-var _ = require('lodash');
-
-request({
-  url: 'https://api.darksky.net/forecast/a46666c475d10436fc8f2b04f56bb46c/50.22,-5.23',
-  json: true
-}, (error, response, body) => {
-  if (error)
+weather.getWeather(50.22,-5.23, (errorMessage, resultsData) => {
+  if (errorMessage)
   {
-    console.log('Unable to connect to Forecast.io/Darksky.net server.');
-  }
-  else if (response.statusCode === 404)
-  {
-    // was 400 bad request, now 404?
-    console.log('Unable to fetch weather');
-  }
-  // else if ()
-  // {
-  //
-  // }
-  else if (response.statusCode === 200)
-  {
-    console.log('location temperature : ', _.get(body,'currently.temperature'));
+    console.log(errorMessage);
   }
   else {
-    console.log('Unable to fetch weather');
+    console.log(JSON.stringify(resultsData, undefined, 2))
   }
 });
 
-// using my own darksky developer API key a46666c475d10436fc8f2b04f56bb46c
+// import request
+// make request
+// print current temperature

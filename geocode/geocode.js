@@ -32,12 +32,12 @@ debugger;
     else
     {
 
-      callback(undefined, {
+      callback(undefined, {     // undefined error message i.e. N/A (OK)
         address: body.results[0].providedLocation.location,
         latitude: body.results[0].locations[0].latLng.lat,
         longitude: body.results[0].locations[0].latLng.lng
 
-      })
+      });
       console.log('Printing body: ',body);
       // console.log('Printing stringified body: ',JSON.stringify(body,undefined,2));    // json, filter out, num spaces
       //console.log('Printing stringified response: ',JSON.stringify(response,undefined,2));    // json, filter out, num spaces
