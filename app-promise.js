@@ -26,17 +26,31 @@ const argv = yargs
   var geocodeUrl = `http://www.mapquestapi.com/geocoding/v1/address?key=pX8PCBe1xKpGx9ZBf05T9bXmJU1kePLv&location=${encodedAddress}`;
 
   axios.get(geocodeUrl).then((geocodeResponse) => {
-    // console.log(geocodeResponse.data);
+    console.log(geocodeResponse.data);
     // console.log('Data status: ' , geocodeResponse.data.status);
     // console.log('Data Results: ' , geocodeResponse.data.results);
-    // console.log('geocodeQualityCode: ' , geocodeResponse.data.results[0].locations[0].geocodeQualityCode);
+    console.log('geocodeQualityCode: ' , geocodeResponse.data.results[0].locations[0].geocodeQualityCode);
     // console.log('Data:', JSON.stringify(geocodeResponse.data.results[0]));
     // if (geocodeResponse.data.status === 'ZERO_RESULTS')   // google map specific
-    if (geocodeResponse.data.results[0].locations[0].geocodeQualityCode === 'A1XAX' || geoCodeResponse.data.results[0].locations[0].geocodeQualityCode === 'Z1XAA')
+debugger;
+    if (geocodeResponse.data.results[0].locations[0].geocodeQualityCode === 'A1XAX' || geocodeResponse.data.results[0].locations[0].geocodeQualityCode === 'Z1XAA')
     {
       throw new Error('Unable to find that address');     // throw error to be caught below with this bespoke message shown
     }
-  }).catch((error) =>
+
+    var lat = geocodeResponse.data.results[0].locations[0].latLng.lat;
+    var lng = geocodeResponse.data.results[0].locations[0].latLng.lng;
+    var weatherUrl = `https://api.darksky.net/forecast/a46666c475d10436fc8f2b04f56bb46c/${lat},${lng}`;
+    return axios.get(weatherUrl); // chaining promises
+
+  }).then ((weatherResponse) =>
+  {
+console.log('in weather response then');
+    var temperature = weatherResponse.data.currently.temperature;
+    var apparentTemperature = weatherResponse.data.currently.apparentTemperature;
+    console.log(`It's currently ${temperature} but apparent temperature is ${apparentTemperature}`);
+  })
+  .catch((error) =>
 {
   if (error.code === 'ENOTFOUND')
   {
